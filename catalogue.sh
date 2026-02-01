@@ -82,20 +82,14 @@ VALIDATE $? "MongoDB Repo Setup"
 dnf install mongodb-mongosh -y &>>"$LOGS_FILE"
 VALIDATE $? "MongoDB Shell Install"
 
-INDEX=$( mongosh --host $MONGODB_HOST --quiet --eval 'db.getMongo().getDBNames().indexOf("catalogue")' )
+INDEX=$(mongosh --host $MONGODB_HOST --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 
 if [ $INDEX -le 0 ]; then
-    mongosh --host $MONGODB_HOST </app/schema/catalogue.js &>>"$LOGS_FILE"
-    VALIDATE $? "Catalogue Schema Load"
+    mongosh --host $MONGODB_HOST </app/db/master-data.js
+    VALIDATE $? "Loading products"
 else
-    echo -e "Catalogue DB Already Exists....$Y SKIPPING $N" | tee -a "$LOGS_FILE"
+    echo -e "Products already loaded ... $Y SKIPPING $N"
 fi
 
-systemctl restart catalogue &>>"$LOGS_FILE"
-VALIDATE $? "Catalogue Service Restart"
-
-
-
-
-
-
+systemctl restart catalogue
+VALIDATE $? "Restarting catalogue"
