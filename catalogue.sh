@@ -50,7 +50,7 @@ VALIDATE $? "Catalogue Download"
 cd /app
 VALIDATE $? "Change Directory to /app"
 
-rm- -rf /app/*
+rm -rf /app/*
 VALIDATE $? "Clean /app Directory"
 
 unzip /tmp/catalogue.zip &>>"$LOGS_FILE"
