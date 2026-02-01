@@ -7,6 +7,8 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+SCRIPT_DIR=$PWD
+MONGODB_HOST=mongodb.ssrdevops.online
 
 if [ "$USERID" -ne 0 ]; then
     echo -e "$R Please run as root $N" | tee -a "$LOGS_FILE"
@@ -59,7 +61,7 @@ VALIDATE $? "Catalogue Unzip"
 npm install &>>"$LOGS_FILE"
 VALIDATE $? "NodeJS Dependencies Install"
 
-cp catalogue.service /etc/systemd/system/catalogue.service &>>"$LOGS_FILE"
+cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>>"$LOGS_FILE"
 VALIDATE $? "Catalogue SystemD File Copy"
 
 systemctl daemon-reload &>>"$LOGS_FILE"
@@ -74,16 +76,16 @@ VALIDATE $? "Catalogue Service Start"
 systemctl status catalogue &>>"$LOGS_FILE"
 VALIDATE $? "Catalogue Service Status Check"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>>"$LOGS_FILE"
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>>"$LOGS_FILE"
 VALIDATE $? "MongoDB Repo Setup"
 
 dnf install mongodb-org-shell -y &>>"$LOGS_FILE"
 VALIDATE $? "MongoDB Shell Install"
 
-INDEX=$( mongosh --host mongodb.ssrdevops.online --quiet --eval 'db.getMongo().getDBNames().indexOf("catalogue")' )
+INDEX=$( mongosh --host $MONGODB_HOST --quiet --eval 'db.getMongo().getDBNames().indexOf("catalogue")' )
 
 if [ $INDEX -le 0 ]; then
-    mongosh --host mongodb.ssrdevops.online </app/schema/catalogue.js &>>"$LOGS_FILE"
+    mongosh --host $MONGODB_HOST </app/schema/catalogue.js &>>"$LOGS_FILE"
     VALIDATE $? "Catalogue Schema Load"
 else
     echo -e "Catalogue DB Already Exists....$Y SKIPPING $N" | tee -a "$LOGS_FILE"
