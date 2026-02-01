@@ -60,7 +60,7 @@ VALIDATE $? "Change Directory to NGINX HTML"
 unzip /tmp/frontend.zip &>>"$LOGS_FILE"
 VALIDATE $? "Frontend Unzip"
 
-cp $SCRIPT_DIR/roboshop.conf /etc/nginx/conf.d/roboshop.conf &>>"$LOGS_FILE"
+cp $SCRIPT_DIR/frontend.service /etc/nginx/conf.d/roboshop.conf &>>"$LOGS_FILE"
 VALIDATE $? "NGINX Config Update"
 
 systemctl restart nginx &>>"$LOGS_FILE"
