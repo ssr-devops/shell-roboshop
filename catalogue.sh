@@ -79,7 +79,7 @@ VALIDATE $? "Catalogue Service Status Check"
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>>"$LOGS_FILE"
 VALIDATE $? "MongoDB Repo Setup"
 
-dnf install mongodb-org-shell -y &>>"$LOGS_FILE"
+dnf install mongodb-mongosh -y &>>"$LOGS_FILE"
 VALIDATE $? "MongoDB Shell Install"
 
 INDEX=$( mongosh --host $MONGODB_HOST --quiet --eval 'db.getMongo().getDBNames().indexOf("catalogue")' )
