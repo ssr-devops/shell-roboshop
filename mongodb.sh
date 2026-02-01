@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USERID=$(id -u)
-LOGS_DIR="/var/log/shell-practice"
+LOGS_DIR="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_DIR/$0.log"
 R="\e[31m"
 G="\e[32m"
