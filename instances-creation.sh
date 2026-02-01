@@ -38,26 +38,28 @@ do
 
     #Update the route53 record
     aws route53 change-resource-record-sets \
-    --hosted-zone-id $ZONE_ID \  # Replace with your hosted zone ID
-    --change-batch '{
-        "Comment": "Creating A record for '$instance'",
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+    {
+        "Comment": "Updating record",
         "Changes": [
             {
-                "Action": "UPSERT",
-                "ResourceRecordSet": {
-                    "Name": "'$RECORD_NAME'",
-                    "Type": "A",
-                    "TTL": 1,
-                    "ResourceRecords": [
-                        {
-                            "Value": "'$IP'"
-                        }
-                    ]
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "'$RECORD_NAME'",
+                "Type": "A",
+                "TTL": 1,
+                "ResourceRecords": [
+                {
+                    "Value": "'$IP'"
                 }
+                ]
+            }
             }
         ]
-    }'
+    }
+    '
 
-    echo "Route53 record created for $RECORD_NAME pointing to $IP"
+    echo "record updated for $instance"
 
 done
