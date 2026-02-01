@@ -41,6 +41,7 @@ VALIDATE $? "NGINX Module Enable"
 dnf install nginx -y &>>"$LOGS_FILE"
 VALIDATE $? "NGINX Installation"
 
+
 systemctl enable nginx &>>"$LOGS_FILE"
 VALIDATE $? "NGINX Enable Service"
 
