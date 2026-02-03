@@ -7,7 +7,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+SCRIPT_DIR=$PWD
 MYSQL_HOST=mysql.ssrdevops.online
 CATLOGUE_HOST=catalogue.ssrdevops.online
 
